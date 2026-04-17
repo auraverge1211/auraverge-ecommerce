@@ -8,9 +8,10 @@ interface NavbarProps {
   onCartClick: () => void;
   onSearchClick: () => void;
   onUserClick: () => void;
+  onExploreClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUserClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUserClick, onExploreClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cart = useStore((state) => state.cart);
@@ -44,18 +45,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
         </motion.div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-12 relative z-[60]">
           {['Collection', 'Archive', 'About', 'Contact'].map((item, i) => (
-            <motion.a
+            <motion.button
               key={item}
-              href={`#${item.toLowerCase()}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (item === 'Collection' || item === 'Archive') {
+                  onExploreClick();
+                } else {
+                  const targetId = item === 'About' ? 'about' : 'contact';
+                  const el = document.getElementById(targetId);
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                  }
+                }
+              }}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="text-[11px] font-bold text-white/40 hover:text-accent transition-colors uppercase tracking-[0.2em]"
+              className="text-[11px] font-bold text-white/40 hover:text-accent transition-all uppercase tracking-[0.2em] cursor-pointer py-2 px-1 relative z-[70] bg-transparent border-none appearance-none"
             >
-              {item}
-            </motion.a>
+              <span className="relative z-[80]">{item}</span>
+            </motion.button>
           ))}
         </div>
 
@@ -110,15 +125,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
             className="md:hidden bg-premium-dark/95 backdrop-blur-xl border-t border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Shop', 'Categories', 'Featured', 'About'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-xl font-display font-medium text-white/80 hover:text-accent"
+              {[
+                { label: 'Collection', type: 'modal' },
+                { label: 'Archive', type: 'modal' },
+                { label: 'About', type: 'scroll' },
+                { label: 'Contact', type: 'scroll' }
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    if (item.type === 'modal') {
+                      onExploreClick();
+                    } else {
+                      const el = document.getElementById(item.label.toLowerCase());
+                      el?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-xl font-display font-medium text-white/80 hover:text-accent text-left uppercase tracking-tighter"
                 >
-                  {item}
-                </a>
+                  {item.label}
+                </button>
               ))}
             </div>
           </motion.div>

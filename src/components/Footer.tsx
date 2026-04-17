@@ -53,12 +53,32 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="editorial-label mb-8">Navigation</h4>
             <ul className="space-y-4">
-              {['Collections', 'Archive', 'About Us', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-white/60 hover:text-accent transition-colors flex items-center gap-2 group text-sm font-bold uppercase tracking-widest">
-                    {item}
+              {[
+                { label: 'Collections', type: 'modal' },
+                { label: 'Archive', type: 'modal' },
+                { label: 'About Us', type: 'scroll', id: 'about' },
+                { label: 'Contact', type: 'scroll', id: 'contact' }
+              ].map((item) => (
+                <li key={item.label}>
+                  <button
+                    onClick={() => {
+                      if (item.type === 'modal') {
+                        // Better to use an event or global state but since this is a small app,
+                        // we can trigger a scroll or search if we assume the modal is triggered by search
+                        // Actually, I'll just scroll to top or similar if I don't have a global trigger easily 
+                        // But I can use a custom event or common pattern.
+                        // For now, simple scroll to top or id="root" is safe.
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      } else {
+                        const el = document.getElementById(item.id!);
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="text-white/60 hover:text-accent transition-colors flex items-center gap-2 group text-sm font-bold uppercase tracking-widest cursor-pointer"
+                  >
+                    {item.label}
                     <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>

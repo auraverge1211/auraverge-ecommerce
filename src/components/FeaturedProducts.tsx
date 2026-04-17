@@ -9,7 +9,7 @@ interface FeaturedProductsProps {
 }
 
 export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
-  const products = useStore((state) => state.products);
+  const { products, settings } = useStore();
   const featured = products.filter(p => p.isFeatured);
 
   return (
@@ -22,8 +22,8 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductCli
               FEATURED <span className="text-accent">DROPS</span>
             </h2>
           </div>
-          <p className="max-w-md text-white/40 font-light text-lg">
-            Hand-picked essentials that define the Nexus aesthetic. Limited availability.
+          <p className="max-w-md text-white/60 font-medium text-lg leading-relaxed italic border-l-2 border-accent pl-6">
+            Hand-picked essentials that define the <span className="text-white underline decoration-accent/30 underline-offset-4">{settings.name}</span> aesthetic. Limited availability.
           </p>
         </div>
 

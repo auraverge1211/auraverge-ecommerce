@@ -29,8 +29,9 @@ export default function App() {
       <Navbar 
         onCartClick={() => setIsCartOpen(true)}
         onSearchClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setIsExploreOpen(true);
         }}
+        onExploreClick={() => setIsExploreOpen(true)}
         onUserClick={() => setIsDashboardOpen(true)}
       />
 
@@ -73,6 +74,7 @@ export default function App() {
         </AnimatePresence>
         
         <motion.div
+          id="collection"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
@@ -87,7 +89,7 @@ export default function App() {
         </motion.div>
 
         {/* Storytelling Section */}
-        <section className="py-32 px-6 bg-premium-dark relative overflow-hidden">
+        <section id="about" className="py-32 px-6 bg-premium-dark relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
@@ -128,6 +130,7 @@ export default function App() {
         </section>
       </main>
 
+      <div id="contact" />
       <Footer />
 
       {/* Modals & Drawers */}

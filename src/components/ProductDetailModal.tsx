@@ -13,7 +13,7 @@ interface ProductDetailModalProps {
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClose }) => {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
-  const addToCart = useStore((state) => state.addToCart);
+  const { addToCart, settings } = useStore();
 
   if (!product) return null;
 
@@ -148,7 +148,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
               <div className="grid grid-cols-3 gap-6">
                 {[
                   { icon: Truck, label: 'Global Priority' },
-                  { icon: Shield, label: 'Nexus Warranty' },
+                  { icon: Shield, label: `${settings.name} Protection` },
                   { icon: RotateCcw, label: 'Returns' },
                 ].map((item, i) => (
                   <div key={i} className="flex flex-col items-center gap-3 text-center">
