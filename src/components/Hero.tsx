@@ -13,6 +13,7 @@ export const Hero: React.FC = () => {
   const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const hoverScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.15]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
 
@@ -61,7 +62,33 @@ export const Hero: React.FC = () => {
       {/* Floating 3D Elements (Abstract) */}
       <motion.div 
         style={{ y: y1, rotate }}
-        className="absolute top-20 right-[15%] w-64 h-80 glass rounded-[40px] rotate-12 flex flex-col items-center justify-between p-6 opacity-60 z-10 overflow-hidden group hover:opacity-100 transition-opacity"
+        animate={{ 
+          y: [0, -8, 0],
+          rotate: [12, 13, 12]
+        }}
+        whileHover={{ 
+          scale: 1.05,
+          rotate: 15,
+          y: -10
+        }}
+        transition={{
+          y: {
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          },
+          rotate: {
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          },
+          scale: {
+            type: "spring",
+            stiffness: 80,
+            damping: 15
+          }
+        }}
+        className="absolute top-20 right-[15%] w-64 h-80 glass rounded-[40px] rotate-12 flex flex-col items-center justify-between p-6 opacity-60 z-10 overflow-hidden group hover:opacity-100 transition-opacity cursor-pointer"
       >
         <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
         <div className="w-full h-48 rounded-3xl overflow-hidden relative z-10">
@@ -83,8 +110,37 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        style={{ y: y2, rotate: -rotate }}
-        className="absolute bottom-20 left-[10%] w-56 h-72 glass rounded-[32px] opacity-40 flex flex-col items-center justify-between p-5 z-10 overflow-hidden group hover:opacity-100 transition-opacity"
+        style={{ y: y2, rotate: -rotate, scale: hoverScale }}
+        animate={{ 
+          y: [0, 8, 0],
+          rotate: [-12, -13, -12]
+        }}
+        whileHover={{ 
+          scale: 1.05,
+          rotateY: -10,
+          rotate: -15,
+          y: 10
+        }}
+        transition={{
+          y: {
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          },
+          rotate: {
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          },
+          scale: {
+            type: "spring",
+            stiffness: 80,
+            damping: 15
+          }
+        }}
+        className="absolute bottom-20 left-[10%] w-56 h-72 glass rounded-[32px] opacity-40 flex flex-col items-center justify-between p-5 z-10 overflow-hidden group hover:opacity-100 transition-opacity cursor-pointer shadow-2xl shadow-accent/0 hover:shadow-accent/5"
       >
         <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
         <div className="w-full h-40 rounded-2xl overflow-hidden relative z-10">
