@@ -23,7 +23,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
       // Make sure VITE_RAZORPAY_KEY_ID is set in your Environment Variables.
       
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || '', 
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SdPUVYEX9FVBw7', 
         amount: Math.round(total * 100), // Amount in paise
         currency: "INR",
         name: "AuraVerge",
