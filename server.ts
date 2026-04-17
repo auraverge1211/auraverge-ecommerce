@@ -1,7 +1,6 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url";
 import RazorpayPkg from "razorpay";
 import dotenv from "dotenv";
@@ -15,9 +14,9 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // 1. API ROUTES
   app.use(express.json());
 
+  // Razorpay API
   app.post("/api/create-order", async (req, res) => {
     try {
       const { amount, currency = "INR" } = req.body;
@@ -28,7 +27,6 @@ async function startServer() {
         return res.status(500).json({ error: "Razorpay keys not configured" });
       }
 
-      // Razorpay init
       const Razorpay = (RazorpayPkg as any).default || RazorpayPkg;
       const rzp = new Razorpay({ key_id: keyId, key_secret: keySecret });
       
@@ -49,27 +47,9 @@ async function startServer() {
   if (!isProduction) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: "custom",
+      appType: "spa", // Standard SPA mode is more robust for dev
     });
-    
     app.use(vite.middlewares);
-
-    app.use("*", async (req, res, next) => {
-      const url = req.originalUrl;
-      if (url.includes(".") || url.startsWith("/@") || url.startsWith("/src/")) {
-        return next();
-      }
-
-      try {
-        const templatePath = path.resolve(__dirname, "index.html");
-        let template = fs.readFileSync(templatePath, "utf-8");
-        template = await vite.transformIndexHtml(url, template);
-        res.status(200).set({ "Content-Type": "text/html" }).end(template);
-      } catch (e) {
-        vite.ssrFixStacktrace(e as Error);
-        next(e);
-      }
-    });
   } else {
     const distPath = path.resolve(__dirname, "dist");
     app.use(express.static(distPath));

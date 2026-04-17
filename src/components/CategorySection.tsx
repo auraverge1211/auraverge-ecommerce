@@ -11,7 +11,11 @@ const categories: { name: Category; icon: any; color: string }[] = [
   { name: 'Accessories', icon: Watch, color: 'from-green-500/20' },
 ];
 
-export const CategorySection: React.FC = () => {
+interface CategorySectionProps {
+  onCategoryClick: (category: Category) => void;
+}
+
+export const CategorySection: React.FC<CategorySectionProps> = ({ onCategoryClick }) => {
   return (
     <section id="categories" className="py-24 px-6 bg-premium-dark relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -35,6 +39,7 @@ export const CategorySection: React.FC = () => {
             {categories.map((cat, i) => (
               <motion.div
                 key={cat.name}
+                onClick={() => onCategoryClick(cat.name)}
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}

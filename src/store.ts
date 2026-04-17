@@ -1,14 +1,16 @@
 import { create } from 'zustand';
-import { CartItem, Product, User, Banner } from './types';
+import { CartItem, Product, User, Banner, SiteSettings } from './types';
 import { products as initialProducts } from './data/products';
 
 interface ShopState {
   products: Product[];
   banners: Banner[];
+  settings: SiteSettings;
   cart: CartItem[];
   user: User | null;
   isAdminOpen: boolean;
   setAdminOpen: (open: boolean) => void;
+  updateSettings: (settings: Partial<SiteSettings>) => void;
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
   removeProduct: (productId: string) => void;
@@ -26,15 +28,14 @@ interface ShopState {
 
 export const useStore = create<ShopState>((set) => ({
   products: initialProducts,
-  banners: [
-    {
-      id: '1',
-      title: 'Summer Collection',
-      subtitle: 'Limited Edition Objects',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1200',
-      active: true
-    }
-  ],
+  banners: [],
+  settings: {
+    name: 'AuraVerge',
+    description: 'A fully functional, immersive 3D-inspired e-commerce platform with premium animations and editorial design.',
+    contactEmail: 'contact@auraverge.com',
+    instagram: 'auraverge',
+    whatsapp: '+9100000000'
+  },
   cart: [],
   user: {
     id: 'user_1',
@@ -45,6 +46,9 @@ export const useStore = create<ShopState>((set) => ({
   },
   isAdminOpen: false,
   setAdminOpen: (open) => set({ isAdminOpen: open }),
+  updateSettings: (newSettings) => set((state) => ({ 
+    settings: { ...state.settings, ...newSettings } 
+  })),
   addProduct: (product) => set((state) => ({ products: [product, ...state.products] })),
   updateProduct: (product) => set((state) => ({
     products: state.products.map(p => p.id === product.id ? product : p)

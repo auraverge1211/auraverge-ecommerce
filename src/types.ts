@@ -45,3 +45,12 @@ export interface Order {
   total: number;
   status: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 }
+
+export interface SiteSettings {
+  name: string;
+  description: string;
+  contactEmail: string;
+  instagram?: string;
+  whatsapp?: string;
+  logoUrl?: string;
+}

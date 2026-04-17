@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { useStore } from '../store';
 
 export const Hero: React.FC = () => {
+  const settings = useStore((state) => state.settings);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -62,8 +64,8 @@ export const Hero: React.FC = () => {
             Limited Release — MMXXIV
           </span>
           <h1 className="text-8xl md:text-[140px] font-display font-black tracking-tighter leading-[0.85] mb-8 italic">
-            <span className="block text-white">AURAVERGE.</span>
-            <span className="block text-accent">OBJECTS</span>
+            <span className="block text-white uppercase">{settings.name}.</span>
+            <span className="block text-accent uppercase">OBJECTS</span>
           </h1>
           <p className="max-w-xl mx-auto text-white/40 text-lg md:text-xl font-light leading-relaxed">
             Curated precision for the modern collector. Established to redefine the boundaries of physical and digital design.

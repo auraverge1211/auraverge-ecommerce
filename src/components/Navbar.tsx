@@ -14,6 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cart = useStore((state) => state.cart);
+  const settings = useStore((state) => state.settings);
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
@@ -36,9 +37,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-display font-black tracking-tighter flex items-center gap-2"
+          className="text-2xl font-display font-black tracking-tighter flex items-center gap-2 cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <span className="text-white">AURAVERGE.</span>
+          <span className="text-white uppercase">{settings.name}.</span>
         </motion.div>
 
         {/* Desktop Nav */}

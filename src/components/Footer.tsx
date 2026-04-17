@@ -5,7 +5,7 @@ import { useStore } from '../store';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
-  const setAdminOpen = useStore((state) => state.setAdminOpen);
+  const { setAdminOpen, settings } = useStore();
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,7 +13,8 @@ export const Footer: React.FC = () => {
       setAdminOpen(true);
       setEmail('');
     } else {
-      alert('Thank you for joining the AuraVerge universe!');
+      // Create a premium notification instead of alert if possible, for now alert is fine for logic testing
+      alert(`Thank you for joining the ${settings.name} universe!`);
       setEmail('');
     }
   };
@@ -24,17 +25,23 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-24">
           <div className="col-span-1 md:col-span-2">
             <div className="text-4xl font-display font-black tracking-tighter mb-8 flex items-center gap-3">
-              <span className="text-white">AURAVERGE.</span>
+              <span className="text-white uppercase">{settings.name}.</span>
             </div>
             <p className="max-w-sm text-white/40 text-xl font-light leading-relaxed mb-8 italic font-serif">
-              Redefining the digital shopping experience through immersive design and premium curation.
+              {settings.description}
             </p>
             <div className="flex gap-4">
-              {[Instagram, Twitter, Github].map((Icon, i) => (
+              {[
+                { Icon: Instagram, href: `https://instagram.com/${settings.instagram}` },
+                { Icon: Twitter, href: '#' },
+                { Icon: Github, href: '#' }
+              ].map(({ Icon, href }, i) => (
                 <motion.a
                   key={i}
-                  href="#"
-                  whileHover={{ y: -5, color: '#E0FF00' }}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -5, color: '#BCFF00' }}
                   className="w-12 h-12 glass rounded-full flex items-center justify-center text-white/60 transition-colors border border-white/10"
                 >
                   <Icon size={18} />
@@ -59,7 +66,7 @@ export const Footer: React.FC = () => {
 
           <div>
             <h4 className="editorial-label mb-8">Newsletter</h4>
-            <p className="text-white/40 text-sm mb-6 font-light">Join the AuraVerge universe for exclusive drops.</p>
+            <p className="text-white/40 text-sm mb-6 font-light">Join the {settings.name} universe for exclusive drops.</p>
             <form onSubmit={handleNewsletter} className="relative">
               <input
                 type="email"
@@ -78,7 +85,7 @@ export const Footer: React.FC = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-6">
           <p className="text-[10px] text-white/20 tracking-[0.2em] uppercase">
-            © 2026 AURAVERGE UNIVERSE. ALL RIGHTS RESERVED.
+            © 2026 {settings.name} UNIVERSE. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-8">
             {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (

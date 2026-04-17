@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Plus, Image as ImageIcon, Package, Layout, BarChart3, Trash2, Save, CheckCircle2 } from 'lucide-react';
+import { X, Plus, Image as ImageIcon, Package, Layout, BarChart3, Trash2, Save, CheckCircle2, Settings } from 'lucide-react';
 import { useStore } from '../store';
 import { Product, Banner, Category } from '../types';
 import { cn } from '../lib/utils';
@@ -14,10 +14,12 @@ export const AdminPanel: React.FC = () => {
     addProduct, 
     removeProduct, 
     addBanner, 
-    removeBanner 
+    removeBanner,
+    settings,
+    updateSettings 
   } = useStore();
   
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'banners'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'banners' | 'settings'>('dashboard');
   
   // Form States
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
@@ -37,7 +39,23 @@ export const AdminPanel: React.FC = () => {
     active: true
   });
 
+  const [localSettings, setLocalSettings] = useState(settings);
+
   if (!isAdminOpen) return null;
+
+  const handleUpdateSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateSettings(localSettings);
+    // Brief visual feedback
+    const btn = e.currentTarget.querySelector('button[type="submit"]');
+    if (btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Saved Successfully!';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    }
+  };
 
   const handleAddProduct = (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,6 +122,7 @@ export const AdminPanel: React.FC = () => {
                 { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
                 { id: 'products', icon: Package, label: 'Products' },
                 { id: 'banners', icon: Layout, label: 'Banners' },
+                { id: 'settings', icon: Settings, label: 'Settings' },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -309,6 +328,74 @@ export const AdminPanel: React.FC = () => {
                     </div>
                   </div>
                 </div>
+              )}
+
+              {activeTab === 'settings' && (
+                <form onSubmit={handleUpdateSettings} className="space-y-8 glass p-8 rounded-[32px] border border-accent/20">
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="text-xl font-serif italic">Global Settings</h3>
+                      <p className="text-sm text-white/40">Manage your store's identity and communication channels.</p>
+                    </div>
+                    <button type="submit" className="flex items-center gap-2 px-6 py-3 bg-accent text-premium-dark font-black rounded-xl hover:scale-[1.05] transition-transform uppercase tracking-widest text-[10px]">
+                      <Save size={16} />
+                      Save Changes
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <label className="editorial-label">Store Name</label>
+                        <input
+                          type="text"
+                          value={localSettings.name}
+                          onChange={e => setLocalSettings({...localSettings, name: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:border-accent outline-none transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="editorial-label">Contact Email</label>
+                        <input
+                          type="email"
+                          value={localSettings.contactEmail}
+                          onChange={e => setLocalSettings({...localSettings, contactEmail: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:border-accent outline-none transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <label className="editorial-label">Instagram Username</label>
+                        <input
+                          type="text"
+                          value={localSettings.instagram}
+                          onChange={e => setLocalSettings({...localSettings, instagram: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:border-accent outline-none transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="editorial-label">WhatsApp Number</label>
+                        <input
+                          type="text"
+                          value={localSettings.whatsapp}
+                          onChange={e => setLocalSettings({...localSettings, whatsapp: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:border-accent outline-none transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="editorial-label">Store Description</label>
+                    <textarea
+                      value={localSettings.description}
+                      onChange={e => setLocalSettings({...localSettings, description: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:border-accent outline-none transition-colors h-32"
+                    />
+                  </div>
+                </form>
               )}
             </div>
           </div>

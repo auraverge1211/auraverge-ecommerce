@@ -4,12 +4,12 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { CategorySection } from './components/CategorySection';
 import { FeaturedProducts } from './components/FeaturedProducts';
-import { Shop } from './components/Shop';
 import { Footer } from './components/Footer';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
 import { Dashboard } from './components/Dashboard';
 import { AdminPanel } from './components/AdminPanel';
+import { ExploreModal } from './components/ExploreModal';
 import { Product } from './types';
 import { useStore } from './store';
 import { motion, AnimatePresence } from 'motion/react';
@@ -19,6 +19,8 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const [exploreCategory, setExploreCategory] = useState<any>('All');
 
   return (
     <div className="min-h-screen bg-premium-dark selection:bg-accent selection:text-premium-dark">
@@ -27,8 +29,7 @@ export default function App() {
       <Navbar 
         onCartClick={() => setIsCartOpen(true)}
         onSearchClick={() => {
-          const shopSection = document.getElementById('shop');
-          shopSection?.scrollIntoView({ behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onUserClick={() => setIsDashboardOpen(true)}
       />
@@ -57,7 +58,13 @@ export default function App() {
                 <h2 className="text-5xl md:text-7xl font-display font-black italic tracking-tighter mb-8">
                   {banner.title}
                 </h2>
-                <button className="px-8 py-4 glass rounded-2xl font-bold text-xs tracking-[0.3em] uppercase hover:bg-accent hover:text-premium-dark transition-all">
+                <button 
+                  onClick={() => {
+                    setExploreCategory('All');
+                    setIsExploreOpen(true);
+                  }}
+                  className="px-8 py-4 glass rounded-2xl font-bold text-xs tracking-[0.3em] uppercase hover:bg-accent hover:text-premium-dark transition-all"
+                >
                   Explore Collection
                 </button>
               </div>
@@ -70,9 +77,13 @@ export default function App() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <CategorySection />
+          <CategorySection 
+            onCategoryClick={(cat) => {
+              setExploreCategory(cat);
+              setIsExploreOpen(true);
+            }} 
+          />
           <FeaturedProducts onProductClick={setSelectedProduct} />
-          <Shop onProductClick={setSelectedProduct} />
         </motion.div>
 
         {/* Storytelling Section */}
@@ -128,6 +139,16 @@ export default function App() {
       <CartDrawer 
         isOpen={isCartOpen} 
         onClose={() => setIsCartOpen(false)} 
+      />
+
+      <ExploreModal
+        isOpen={isExploreOpen}
+        onClose={() => setIsExploreOpen(false)}
+        initialCategory={exploreCategory}
+        onProductClick={(p) => {
+          setSelectedProduct(p);
+          setIsExploreOpen(false);
+        }}
       />
 
       <Dashboard 
