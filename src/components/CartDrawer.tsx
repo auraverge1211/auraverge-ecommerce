@@ -18,34 +18,17 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     if (cart.length === 0) return;
 
     try {
-      // 1. Create order on server
-      // NOTE: This will fail on GitHub Pages as it requires a running Node.js server.
-      const response = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: total }),
-      });
-
-      if (!response.ok) {
-        // If the server doesn't exist (GitHub Pages) or keys are missing
-        if (response.status === 404) {
-          throw new Error('Static Hosting detected. Real payments require a live server (Cloud Run).');
-        }
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create order');
-      }
-
-      const order = await response.json();
-
-      // 2. Open Razorpay Checkout
+      // DIRECT CLIENT-SIDE INTEGRATION (Works on GitHub Pages)
+      // Note: This passes the amount directly to Razorpay without an Order ID.
+      // Make sure VITE_RAZORPAY_KEY_ID is set in your Environment Variables.
+      
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || '', 
-        amount: order.amount,
-        currency: order.currency,
+        amount: Math.round(total * 100), // Amount in paise
+        currency: "INR",
         name: "AuraVerge",
         description: "Premium Objects Purchase",
         image: "https://picsum.photos/seed/aura/200/200",
-        order_id: order.id,
         handler: function (response: any) {
           confetti({
             particleCount: 150,
@@ -71,7 +54,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
     } catch (error) {
       console.error("Checkout Error:", error);
-      alert(error instanceof Error ? error.message : "Checkout failed. Please ensure the backend is running.");
+      alert("Checkout failed. Please ensure your Razorpay Public Key is set in Settings.");
     }
   };
 
