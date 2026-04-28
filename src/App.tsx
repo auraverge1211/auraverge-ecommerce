@@ -10,6 +10,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { Dashboard } from './components/Dashboard';
 import { AdminPanel } from './components/AdminPanel';
 import { ExploreModal } from './components/ExploreModal';
+import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { Product } from './types';
 import { useStore } from './store';
 import { motion, AnimatePresence } from 'motion/react';
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-premium-dark selection:bg-accent selection:text-premium-dark">
       <CustomCursor />
+      <WhatsAppWidget />
       
       <Navbar 
         onCartClick={() => setIsCartOpen(true)}
