@@ -55,6 +55,14 @@
     @apply text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold;
   }
 
+  .glass {
+    @apply bg-glass backdrop-blur-xl border border-glass-border;
+  }
+  
+  .text-luxury {
+    @apply font-serif italic tracking-tight;
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

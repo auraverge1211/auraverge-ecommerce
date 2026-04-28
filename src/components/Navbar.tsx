@@ -78,6 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
         <div className="flex items-center gap-4">
           <button
             onClick={onSearchClick}
+            aria-label="Search"
             className="p-2 hover:bg-white/10 rounded-full transition-colors relative group"
           >
             <Search size={20} className="group-hover:text-accent transition-colors" />
@@ -85,6 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
           
           <button
             onClick={onUserClick}
+            aria-label="Account"
             className="p-2 hover:bg-white/10 rounded-full transition-colors relative group"
           >
             <User size={20} className="group-hover:text-accent transition-colors" />
@@ -92,6 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
 
           <button
             onClick={onCartClick}
+            aria-label="View Cart"
             className="p-2 hover:bg-white/10 rounded-full transition-colors relative group"
           >
             <ShoppingCart size={20} className="group-hover:text-accent transition-colors" />
@@ -109,6 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCartClick, onSearchClick, onUs
           <button
             className="md:hidden p-2 hover:bg-white/10 rounded-full transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

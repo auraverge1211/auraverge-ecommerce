@@ -141,85 +141,22 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       {/* Floating 3D Elements (Abstract) */}
-      <motion.div 
-        style={{ 
-          y: finalCard1Y, 
-          rotate,
-          x: finalCard1X,
-        }}
-        onMouseMove={(e) => handleCardMouseMove(e, 1)}
-        onMouseLeave={handleCardMouseLeave}
-        className="absolute top-20 right-[15%] w-64 h-80 z-10 cursor-pointer transform-gpu"
+      <div 
+        className="absolute top-20 right-[15%] w-64 h-80 z-10"
       >
-        <motion.div
-          style={{ 
-            rotateX: hoveredCard === 1 ? cardRotateX : 0, 
-            rotateY: hoveredCard === 1 ? cardRotateY : 0 
-          }}
-          animate={{ 
-            y: [0, -12, 0],
-            rotate: [0, 1, 0]
-          }}
-          whileHover={{ 
-            scale: 1.08, // Increased scale for AirPods card
-            z: 80,
-          }}
-          transition={{
-            y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-            rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-            scale: { type: "spring", stiffness: 100, damping: 20 }
-          }}
-          className="w-full h-full glass rounded-[40px] flex flex-col items-center justify-between p-6 opacity-60 group hover:opacity-100 transition-opacity overflow-hidden relative"
+        <div
+          className="w-full h-full glass rounded-[40px] flex flex-col items-center justify-between p-6 overflow-hidden relative"
         >
-          {/* Flashlight Interaction */}
-          <motion.div 
-            style={{ 
-              x: smoothMagneticX, 
-              y: smoothMagneticY,
-              opacity: hoveredCard === 1 ? 0.3 : 0
-            }}
-            className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,white,transparent_70%)] blur-2xl pointer-events-none"
-          />
-          {/* Shine Sweep */}
-          <motion.div 
-            initial={{ x: '-150%' }}
-            whileHover={{ x: '150%' }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 z-[1] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-          />
-          
-          <motion.div 
-            animate={{ 
-              opacity: [0, 0.4, 0],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute inset-0 bg-accent/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl" 
-          />
           <div className="w-full h-48 rounded-3xl overflow-hidden relative z-10">
-            <motion.img 
-              style={{ 
-                x: hoveredCard === 1 ? imageShiftX : 0, 
-                y: hoveredCard === 1 ? imageShiftY : 0,
-                scale: 1.15
-              }}
-              whileHover={{ scale: 1.25 }}
+            <img 
               src="https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?auto=format&fit=crop&q=80&w=600&h=600" 
               alt="Premium Audio"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover scale-115"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-premium-dark/40 to-transparent" />
           </div>
-          <motion.div 
-            style={{ 
-              x: hoveredCard === 1 ? textShiftX : 0, 
-              y: hoveredCard === 1 ? textShiftY : 0 
-            }}
+          <div 
             className="w-full space-y-2 mt-4 relative z-10"
           >
             <div className="h-px bg-white/10 w-full" />
@@ -227,90 +164,25 @@ export const Hero: React.FC = () => {
               <span className="text-white/40 text-[9px] tracking-[0.4em] uppercase font-bold italic">Series.01</span>
               <span className="text-accent text-[9px] font-bold tracking-widest uppercase">AirPods Pro Max</span>
             </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
 
-      <motion.div 
-        style={{ 
-          y: finalCard2Y, 
-          rotate: -rotate, 
-          scale: hoverScale,
-          x: finalCard2X,
-        }}
-        onMouseMove={(e) => handleCardMouseMove(e, 2)}
-        onMouseLeave={handleCardMouseLeave}
-        className="absolute bottom-20 left-[10%] w-56 h-72 z-10 cursor-pointer transform-gpu"
+      <div 
+        className="absolute bottom-20 left-[10%] w-56 h-72 z-10"
       >
-        <motion.div
-          style={{ 
-            rotateX: hoveredCard === 2 ? cardRotateX : 0, 
-            rotateY: hoveredCard === 2 ? cardRotateY : 0 
-          }}
-          animate={{ 
-            y: [0, 12, 0],
-            rotate: [0, -1, 0]
-          }}
-          whileHover={{ 
-            scale: 1.15, // Increased scale for Collector card
-            z: 120,
-          }}
-          transition={{
-            y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 },
-            rotate: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 },
-            scale: { type: "spring", stiffness: 100, damping: 20 }
-          }}
-          className="w-full h-full glass rounded-[32px] flex flex-col items-center justify-between p-5 opacity-40 group hover:opacity-100 transition-opacity overflow-hidden shadow-2xl shadow-accent/0 hover:shadow-accent/10 relative"
+        <div
+          className="w-full h-full glass rounded-[32px] flex flex-col items-center justify-between p-5 overflow-hidden relative"
         >
-          {/* Flashlight Interaction */}
-          <motion.div 
-            style={{ 
-              x: smoothMagneticX, 
-              y: smoothMagneticY,
-              opacity: hoveredCard === 2 ? 0.2 : 0
-            }}
-            className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent_60%)] blur-2xl pointer-events-none"
-          />
-          {/* Shine Sweep */}
-          <motion.div 
-            initial={{ x: '-150%' }}
-            whileHover={{ x: '150%' }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 z-[1] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-          />
-
-          <motion.div 
-            animate={{ 
-              opacity: [0, 0.3, 0],
-              scale: [1, 1.3, 1],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1
-            }}
-            className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" 
-          />
           <div className="w-full h-40 rounded-2xl overflow-hidden relative z-10">
-            <motion.img 
-              style={{ 
-                x: hoveredCard === 2 ? imageShiftX : 0, 
-                y: hoveredCard === 2 ? imageShiftY : 0,
-                scale: 1.15
-              }}
-              whileHover={{ scale: 1.25 }}
+            <img 
               src="https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&q=80&w=600&h=600" 
               alt="Essential Object"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover scale-115"
               referrerPolicy="no-referrer"
             />
           </div>
-          <motion.div 
-            style={{ 
-              x: hoveredCard === 2 ? textShiftX : 0, 
-              y: hoveredCard === 2 ? textShiftY : 0 
-            }}
+          <div 
             className="w-full space-y-2 mt-3 relative z-10"
           >
             <div className="h-px bg-white/10 w-full" />
@@ -318,9 +190,9 @@ export const Hero: React.FC = () => {
               <span className="text-white/40 text-[9px] tracking-[0.4em] uppercase font-bold italic">MMXXVI</span>
               <span className="text-accent text-[9px] font-bold tracking-widest">COLLECTOR</span>
             </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="relative z-20 text-center px-6">
